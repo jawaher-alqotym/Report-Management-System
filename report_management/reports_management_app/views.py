@@ -178,6 +178,7 @@ def get_all_unitedstate_reports(request : Request):
         return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
 
 # Media handling views
+# imgs
 @api_view(["POST"])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
@@ -229,7 +230,7 @@ def delete_img(request : Request, group: str, img_id: str):
           img = img_models_action_dict[group.lower()].objects.get(id=img_id)
           img.delete()
 
-          return Response(f'report {img.title} is deleted', status.HTTP_200_OK)
+          return Response(f'img {img.title} is deleted', status.HTTP_200_OK)
         else:
           return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
 
@@ -266,6 +267,202 @@ def get_report_imgs(request: Request, group: str, report_id):
           imgs = img_models_action_dict[group.lower()].objects.filter(report=img_report).order_by('-id')
           result_page = paginator.paginate_queryset(imgs, request)
           serializer = img_serializers_action_dict[group.lower()](result_page, many=True)
+
+          return paginator.get_paginated_response(serializer.data)
+
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+# videos
+@api_view(["POST"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def add_videos(request: Request, group: str, report_id):
+   try:
+     if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+       group = group.lower()
+       ved_report = report_models_action_dict[group].objects.get(id=report_id)
+       videos = request.FILES.getlist('video')
+       for video in videos:
+           ved_models_action_dict[group].objects.create(
+               title=request.data['title'],
+               description=request.data['description'],
+               uploader=request.user,
+               report=ved_report,
+               video= video)
+
+       return Response (f"new video/videos added to group {group.lower()}", status.HTTP_200_OK)
+
+     else: return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+   except Exception as e:
+       return Response (f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PUT"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def update_video(request: Request, group: str, ved_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          video = ved_models_action_dict[group.lower()].objects.get(id=ved_id)
+          data = ved_put_serializers_action_dict[group.lower()](instance=video, data=request.data)
+          data.is_valid(raise_exception=True)
+          data.save()
+          return Response('the video have been updated', status.HTTP_200_OK)
+
+        else:
+            return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+       return Response (f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_video(request : Request, group: str, ved_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          video = ved_models_action_dict[group.lower()].objects.get(id=ved_id)
+          video.delete()
+
+          return Response(f'video {video.title} is deleted', status.HTTP_200_OK)
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_video(request : Request, group: str, ved_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          video = ved_models_action_dict[group.lower()].objects.get(id=ved_id)
+          data = ved_serializers_action_dict[group.lower()](video).data
+          dataResponse = {
+              "report": data,
+          }
+          return Response(dataResponse, status.HTTP_200_OK)
+
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_report_videos(request: Request, group: str, report_id):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          paginator = PageNumberPagination()
+          ved_report = report_models_action_dict[group.lower()].objects.get(id=report_id)
+          videos = ved_models_action_dict[group.lower()].objects.filter(report=ved_report).order_by('-id')
+          result_page = paginator.paginate_queryset(videos, request)
+          serializer = ved_serializers_action_dict[group.lower()](result_page, many=True)
+
+          return paginator.get_paginated_response(serializer.data)
+
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+# documents
+@api_view(["POST"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def add_documents(request: Request, group: str, report_id):
+   try:
+     if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+       group = group.lower()
+       doc_report = report_models_action_dict[group].objects.get(id=report_id)
+       documents = request.FILES.getlist('document')
+       for document in documents:
+           doc_models_action_dict[group].objects.create(
+               title=request.data['title'],
+               description=request.data['description'],
+               uploader=request.user,
+               report=doc_report,
+               document= document)
+
+       return Response (f"new document/documents added to group {group.lower()}", status.HTTP_200_OK)
+
+     else: return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+   except Exception as e:
+       return Response (f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PUT"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def update_document(request: Request, group: str, doc_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          document = doc_models_action_dict[group.lower()].objects.get(id=doc_id)
+          data = doc_put_serializers_action_dict[group.lower()](instance=document, data=request.data)
+          data.is_valid(raise_exception=True)
+          data.save()
+          return Response('the document have been updated', status.HTTP_200_OK)
+
+        else:
+            return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+       return Response (f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def delete_document(request : Request, group: str, doc_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          document = doc_models_action_dict[group.lower()].objects.get(id=doc_id)
+          document.delete()
+
+          return Response(f'document {document.title} is deleted', status.HTTP_200_OK)
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_document(request : Request, group: str, doc_id: str):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          document = doc_models_action_dict[group.lower()].objects.get(id=doc_id)
+          data = doc_serializers_action_dict[group.lower()](document).data
+          dataResponse = {
+              "report": data,
+          }
+          return Response(dataResponse, status.HTTP_200_OK)
+
+        else:
+          return Response(f'no group with such name exists', status.HTTP_401_UNAUTHORIZED)
+
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_report_documents(request: Request, group: str, report_id):
+    try:
+        if request.user.groups.filter(name=group.lower()).exists() | request.user.is_superuser:
+          paginator = PageNumberPagination()
+          doc_report = report_models_action_dict[group.lower()].objects.get(id=report_id)
+          documents = doc_models_action_dict[group.lower()].objects.filter(report=doc_report).order_by('-id')
+          result_page = paginator.paginate_queryset(documents, request)
+          serializer = doc_serializers_action_dict[group.lower()](result_page, many=True)
 
           return paginator.get_paginated_response(serializer.data)
 
