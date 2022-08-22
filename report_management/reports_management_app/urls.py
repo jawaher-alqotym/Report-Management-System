@@ -21,4 +21,17 @@ urlpatterns = [
                path('delete_img/<str:group>/<str:img_id>/', views.delete_img, name='delete_img'),
                path('get_img/<str:group>/<str:img_id>/', views.get_img, name='get_img'),
                path('get_report_imgs/<str:group>/<str:report_id>/', views.get_report_imgs, name='get_report_imgs'),
+
+               path('add_videos/<str:group>/<str:report_id>/', views.add_videos, name='add_videos'),
+               path('update_video/<str:group>/<str:ved_id>/', views.update_video, name='update_video'),
+               path('delete_video/<str:group>/<str:ved_id>/', views.delete_video, name='delete_video'),
+               path('get_video/<str:group>/<str:ved_id>/', views.get_video, name='get_video'),
+               path('get_report_videos/<str:group>/<str:report_id>/', views.get_report_videos, name='get_report_videos'),
+
+               path('add_documents/<str:group>/<str:report_id>/', views.add_documents, name='add_documents'),
+               path('update_document/<str:group>/<str:doc_id>/', views.update_document, name='update_document'),
+               path('delete_document/<str:group>/<str:doc_id>/', views.delete_document, name='delete_document'),
+               path('get_document/<str:group>/<str:doc_id>/', views.get_document, name='get_document'),
+               path('get_report_documents/<str:group>/<str:report_id>/', views.get_report_documents, name='get_report_documents'),
+
               ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
