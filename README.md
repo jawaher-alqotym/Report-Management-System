@@ -7,6 +7,6 @@
 
 ### Features
 
-- Real-time search result using elastic search, media files such as (images/videos/documents) uploaded to AWS S3 bucket, report and media files CRUD.
+- Real-time search result using elastic search, media files such as (images/videos/documents) uploaded to AWS S3 bucket, report and media files CRUD, and group Management (CRUD).
 - Backend developed with Django.
 
