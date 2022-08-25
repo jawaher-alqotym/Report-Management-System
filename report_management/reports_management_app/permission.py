@@ -1,4 +1,4 @@
-# permissions.py
+# reports_management_app/permissions.py
 
 from rest_framework.permissions import BasePermission
 
