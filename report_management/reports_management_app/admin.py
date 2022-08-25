@@ -1,60 +1,84 @@
 from django.contrib import admin
 from .models import *
 
+class TagAdmin(admin.ModelAdmin):
+    list_display = ( 'title',)
+    search_fields = ['title']
+
 class SaudiArabiaReportAdmin(admin.ModelAdmin):
-  list_display = ('uploader', 'title', 'upload_date')
-  list_filter = ('sports', 'technology', 'medical', 'entertainment', 'educational', 'humanitarian',
-                 'resources', 'budgeting', 'audit', 'government', 'regulation', 'historical', 'strategies',
-                 'milestone', 'general')
+  list_display = ('id', 'uploader', 'title', 'upload_date')
+  search_fields = ['title']
+  list_filter = ('tags',)
 
 class UnitedStateReportAdmin(admin.ModelAdmin):
-  list_display = ('uploader', 'title', 'upload_date')
-  list_filter = ('sports', 'technology', 'medical', 'entertainment', 'educational', 'humanitarian',
-                 'resources', 'budgeting', 'audit', 'government', 'regulation', 'historical', 'strategies',
-                 'milestone', 'general')
+  list_display = ('id', 'uploader', 'title', 'upload_date')
+  search_fields = ['title']
+  list_filter = ('tags',)
+
 
 class GeneralReportAdmin(admin.ModelAdmin):
-  list_display = ('uploader', 'title', 'upload_date')
-  list_filter = ('sports', 'technology', 'medical', 'entertainment', 'educational', 'humanitarian',
-                 'resources', 'budgeting', 'audit', 'government', 'regulation', 'historical', 'strategies',
-                 'milestone', 'general')
+  list_display = ('id', 'uploader', 'title', 'upload_date')
+  search_fields = ['title']
+  list_filter = ('tags',)
+
 
 class SaudiArabiaImgeAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'img')
+  list_display = ('id', 'report', 'uploader', 'title', 'img')
+  search_fields = ['title']
+
 
 class UnitedStateImgeAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'img')
+  list_display = ('id', 'report', 'uploader', 'title', 'img')
+  search_fields = ['title']
 
 class GeneralImgeAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'img')
+  list_display = ('id', 'report', 'uploader', 'title', 'img')
+  search_fields = ['title']
+
 
 class SaudiArabiaVideoAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'video')
+  list_display = ('id', 'report', 'uploader', 'title', 'video')
+  search_fields = ['title']
+
 
 class UnitedStateVideoAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'video')
+  list_display = ('id', 'report', 'uploader', 'title', 'video')
+  search_fields = ['title']
+
 
 class GeneralVideoAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'video')
+  list_display = ('id', 'report', 'uploader', 'title', 'video')
+  search_fields = ['title']
+
 
 class SaudiArabiaDocumentAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'document')
+  list_display = ('id', 'report', 'uploader', 'title', 'document')
+  search_fields = ['title']
+
 
 class UnitedStateDocumentAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'document')
+  list_display = ('id', 'report', 'uploader', 'title', 'document')
+  search_fields = ['title']
+
 
 class GeneralDocumentAdmin(admin.ModelAdmin):
-  list_display = ('report', 'uploader', 'title', 'document')
+  list_display = ('id', 'report', 'uploader', 'title', 'document')
+  search_fields = ['title']
+
 
 class SaudiArabiaReportAuditAdmin(admin.ModelAdmin):
-  list_display = ('editor', 'action', 'date', 'reportID')
+  list_display = ('id', 'editor', 'action', 'date', 'reportID')
+
 
 class UnitedStateReportAuditAdmin(admin.ModelAdmin):
-  list_display = ('editor', 'action', 'date', 'reportID')
+  list_display = ('id', 'editor', 'action', 'date', 'reportID')
+
 
 class GeneralReportAuditAdmin(admin.ModelAdmin):
-  list_display = ('editor', 'action', 'date', 'reportID')
+  list_display = ('id', 'editor', 'action', 'date', 'reportID')
 
+
+admin.site.register(Tag, TagAdmin)
 
 admin.site.register(SaudiArabiaReport, SaudiArabiaReportAdmin)
 admin.site.register(UnitedStateReport, UnitedStateReportAdmin)

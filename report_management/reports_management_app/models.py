@@ -3,71 +3,32 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class Tag(models.Model):
+    title = models.CharField(max_length=100)# report classification tags
+
+    def __str__(self):
+        return f'{self.title}'
+
 class SaudiArabiaReport(models.Model):
     uploader = models.ForeignKey(User,related_name= 'KSA_report_uploader',on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=350)
     upload_date = models.DateTimeField(auto_now_add=True)
-    # report classification tags
-    sports = models.BooleanField(default=False, help_text='report classification tag')
-    technology = models.BooleanField(default=False, help_text='report classification tag')
-    medical = models.BooleanField(default=False, help_text='report classification tag')
-    entertainment = models.BooleanField(default=False, help_text='report classification tag')
-    educational = models.BooleanField(default=False, help_text='report classification tag')
-    humanitarian = models.BooleanField(default=False, help_text='report classification tag')
-    resources = models.BooleanField(default=False, help_text='report classification tag')
-    budgeting = models.BooleanField(default=False, help_text='report classification tag')
-    audit = models.BooleanField(default=False, help_text='report classification tag')
-    government = models.BooleanField(default=False, help_text='report classification tag')
-    regulation = models.BooleanField(default=False, help_text='report classification tag')
-    historical = models.BooleanField(default=False, help_text='report classification tag')
-    strategies = models.BooleanField(default=False, help_text='report classification tag')
-    milestone = models.BooleanField(default=False, help_text='report classification tag')
-    general = models.BooleanField(default=False, help_text='report classification tag')
+    tags = models.ManyToManyField(Tag)
 
 class UnitedStateReport(models.Model):
     uploader = models.ForeignKey(User,related_name= 'US_report_uploader',on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=350)
     upload_date = models.DateTimeField(auto_now_add=True)
-    # report classification tags
-    sports = models.BooleanField(default=False, help_text='report classification tag')
-    technology = models.BooleanField(default=False, help_text='report classification tag')
-    medical = models.BooleanField(default=False, help_text='report classification tag')
-    entertainment = models.BooleanField(default=False, help_text='report classification tag')
-    educational = models.BooleanField(default=False, help_text='report classification tag')
-    humanitarian = models.BooleanField(default=False, help_text='report classification tag')
-    resources = models.BooleanField(default=False, help_text='report classification tag')
-    budgeting = models.BooleanField(default=False, help_text='report classification tag')
-    audit = models.BooleanField(default=False, help_text='report classification tag')
-    government = models.BooleanField(default=False, help_text='report classification tag')
-    regulation = models.BooleanField(default=False, help_text='report classification tag')
-    historical = models.BooleanField(default=False, help_text='report classification tag')
-    strategies = models.BooleanField(default=False, help_text='report classification tag')
-    milestone = models.BooleanField(default=False, help_text='report classification tag')
-    general = models.BooleanField(default=False, help_text='report classification tag')
+    tags = models.ManyToManyField(Tag)
 
 class GeneralReport(models.Model):
     uploader = models.ForeignKey(User,related_name= 'G_report_uploader',on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=350)
     upload_date = models.DateTimeField(auto_now_add=True)
-    # report classification tags
-    sports = models.BooleanField(default=False, help_text='report classification tag')
-    technology = models.BooleanField(default=False, help_text='report classification tag')
-    medical = models.BooleanField(default=False, help_text='report classification tag')
-    entertainment = models.BooleanField(default=False, help_text='report classification tag')
-    educational = models.BooleanField(default=False, help_text='report classification tag')
-    humanitarian = models.BooleanField(default=False, help_text='report classification tag')
-    resources = models.BooleanField(default=False, help_text='report classification tag')
-    budgeting = models.BooleanField(default=False, help_text='report classification tag')
-    audit = models.BooleanField(default=False, help_text='report classification tag')
-    government = models.BooleanField(default=False, help_text='report classification tag')
-    regulation = models.BooleanField(default=False, help_text='report classification tag')
-    historical = models.BooleanField(default=False, help_text='report classification tag')
-    strategies = models.BooleanField(default=False, help_text='report classification tag')
-    milestone = models.BooleanField(default=False, help_text='report classification tag')
-    general = models.BooleanField(default=False, help_text='report classification tag')
+    tags = models.ManyToManyField(Tag)
 
 class SaudiArabiaImge(models.Model):
     report = models.ForeignKey(SaudiArabiaReport, related_name='KSA_report_img', on_delete=models.CASCADE)

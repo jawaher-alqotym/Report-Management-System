@@ -246,7 +246,7 @@ def get_img(request : Request, group: str, img_id: str):
           img = img_models_action_dict[group.lower()].objects.get(id=img_id)
           data = img_serializers_action_dict[group.lower()](img).data
           dataResponse = {
-              "report": data,
+              "img": data,
           }
           return Response(dataResponse, status.HTTP_200_OK)
 
@@ -344,7 +344,7 @@ def get_video(request : Request, group: str, ved_id: str):
           video = ved_models_action_dict[group.lower()].objects.get(id=ved_id)
           data = ved_serializers_action_dict[group.lower()](video).data
           dataResponse = {
-              "report": data,
+              "video": data,
           }
           return Response(dataResponse, status.HTTP_200_OK)
 
@@ -442,7 +442,7 @@ def get_document(request : Request, group: str, doc_id: str):
           document = doc_models_action_dict[group.lower()].objects.get(id=doc_id)
           data = doc_serializers_action_dict[group.lower()](document).data
           dataResponse = {
-              "report": data,
+              "document": data,
           }
           return Response(dataResponse, status.HTTP_200_OK)
 

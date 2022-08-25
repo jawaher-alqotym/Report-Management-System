@@ -5,6 +5,8 @@ from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from elasticsearch import RequestsHttpConnection
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -34,11 +36,18 @@ INSTALLED_APPS = [
     'rest_framework',
 
     #django_storages app
-    #'storages'
+    'storages',
 
     # project apps
     'users_management_app',
     'reports_management_app',
+    'search_app',# Elasticsearch integration with the Django
+
+    # Django Elasticsearch integration
+    'django_elasticsearch_dsl',
+
+    # Django REST framework Elasticsearch integration (this package)
+    'django_elasticsearch_dsl_drf',
 ]
 
 MIDDLEWARE = [
@@ -176,5 +185,21 @@ SIMPLE_JWT = {
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'ORDERING_PARAM': 'ordering',
+}
+
+# Elasticsearch configuration
+from elasticsearch import RequestsHttpConnection
+
+# Elasticsearch configuration in settings.py
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200',
+        'use_ssl': True,
+        'http_auth': ('elastic', 'z9JeaMwCFP3ivwHHfvnv'),
+        'verify_certs': False,
+        'ca_certs': None, #'/path/to/cert.crt',
+        'connection_class': RequestsHttpConnection
+    }
 }
