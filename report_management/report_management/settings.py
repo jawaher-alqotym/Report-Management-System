@@ -197,7 +197,7 @@ ELASTICSEARCH_DSL = {
     'default': {
         'hosts': 'localhost:9200',
         'use_ssl': True,
-        'http_auth': ('elastic', 'z9JeaMwCFP3ivwHHfvnv'),
+        'http_auth': ('elastic', os.environ.get('elasticsearch_http_auth_password')),
         'verify_certs': False,
         'ca_certs': None, #'/path/to/cert.crt',
         'connection_class': RequestsHttpConnection
