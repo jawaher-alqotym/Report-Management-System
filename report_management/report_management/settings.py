@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # project apps
     'users_management_app',
+    'groups_management_app',
     'reports_management_app',
     'search_app',# Elasticsearch integration with the Django
 

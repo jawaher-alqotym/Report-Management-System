@@ -1,4 +1,4 @@
-# views.py
+# search_app/views.py
 
 from rest_framework import status
 from rest_framework.request import Request

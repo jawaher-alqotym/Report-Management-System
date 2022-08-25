@@ -1,9 +1,14 @@
+# users_management_app/views.py
 
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
+from rest_framework.decorators import authentication_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAdminUser
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import User
 from .serializers import *
@@ -20,17 +25,41 @@ def login(request: Request):
           user = authenticate(username=request.data['username'], password=request.data['password'])
           if user:
             token = AccessToken.for_user(user)
-            groups = [i.name for i in user.groups.all()]
             dataResponse = {
                 "token": str(token),
-                "username": f'{user.username}',
-                "groups": f'{groups}'
+                "user":UserSerializer(instance=user).data
             }
             return Response(dataResponse, status=status.HTTP_200_OK)
         except Exception as e:
           return Response({"msg": f"{e}"}, status=status.HTTP_401_UNAUTHORIZED)
 
     return Response({"msg": "provide a valid username & password"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["POST"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser])
+def add_user_to_group(request: Request, group: str, username: str):
+    try:
+     group = Group.objects.get(name=group)
+     user = User.objects.get(username=username)
+     group.user_set.add(user)
+     return Response('success', status.HTTP_200_OK)
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+@api_view(["DELETE"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAdminUser])
+def remove_user_from_group(request: Request, group: str, username: str):
+    try:
+     group = Group.objects.get(name=group)
+     user = User.objects.get(username=username)
+     user.groups.remove(group)
+     return Response('success', status.HTTP_200_OK)
+    except Exception as e:
+        return Response(f'{e}', status.HTTP_400_BAD_REQUEST)
+
+
 
 
 

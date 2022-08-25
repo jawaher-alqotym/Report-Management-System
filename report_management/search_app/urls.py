@@ -1,7 +1,5 @@
 # search_app/urls.py
 
-from django.conf.urls.static import static
-from django.conf import settings
 from django.urls import path
 from . import views
 
@@ -13,4 +11,4 @@ urlpatterns = [
               path('search_videos/<str:group>/<str:query>/', views.search_videos, name='search_videos'),
               path('search_documents/<str:group>/<str:query>/', views.search_documents, name='search_documents'),
 
-              ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+              ]

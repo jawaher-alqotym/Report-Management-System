@@ -1,4 +1,4 @@
-# urls.py
+# reports_management_app/urls.py
 
 from django.conf.urls.static import static
 from django.conf import settings
