@@ -19,10 +19,10 @@ from users_management_app.serializers import UserSerializer, GroupSerializer
 @api_view(["POST"])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAdminUser])
-def create_group(request: Request, group_name: str, model_name: str):
+def create_group(request: Request, group_name: str, models_name):
    '''
-    this function will take nwe group name and a model name in the db
-    then give the Permission CRUD to the new group.
+    this function will take a nwe group name and the multiple models name
+    and give the Permission to CRUD op on the models to the new group.
     :param request:
     :param group_name:
     :param model_name:
@@ -30,7 +30,9 @@ def create_group(request: Request, group_name: str, model_name: str):
     '''
    try:
      new_group , created = Group.objects.get_or_create(name= group_name)
-     for app_conf in apps.get_app_configs():
+     # the following for loop assumes the models_name is sent in the (model1,model2,...,modelN) format
+     for model_name in models_name.split(','):
+       for app_conf in apps.get_app_configs():# check the model name in all the project apps models
             try:
               model = app_conf.get_model(model_name)
               content_type = ContentType.objects.get_for_model(model)
@@ -38,7 +40,6 @@ def create_group(request: Request, group_name: str, model_name: str):
               for perm in model_permission: new_group.permissions.add(perm)
               break
             except Exception as e:
-                print(e)
                 pass
      return Response(f'new group created', status.HTTP_200_OK)
 
