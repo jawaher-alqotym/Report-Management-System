@@ -1,7 +1,10 @@
 # reports_management_app/admin.py
 
 from django.contrib import admin
-from .models import *
+from .models.saudi_arabia import *
+from .models.united_state import *
+from .models.general import *
+from .models.tag import Tag
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ( 'title',)

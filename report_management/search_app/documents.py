@@ -4,11 +4,10 @@ from django_elasticsearch_dsl import Document, fields
 from django_elasticsearch_dsl.registries import registry
 from django.contrib.auth.models import User
 
-from reports_management_app.models import Tag, SaudiArabiaReport, UnitedStateReport, GeneralReport\
-                                          ,SaudiArabiaImge, UnitedStateImge, GeneralImge\
-                                          ,SaudiArabiaVideo, UnitedStateVideo, GeneralVideo\
-                                          ,SaudiArabiaDocument, UnitedStateDocument, GeneralDocument
-
+from reports_management_app.models.tag import Tag
+from reports_management_app.models.general import GeneralDocument, GeneralReport, GeneralImge, GeneralVideo
+from reports_management_app.models.saudi_arabia import SaudiArabiaDocument, SaudiArabiaReport, SaudiArabiaImge, SaudiArabiaVideo
+from reports_management_app.models.united_state import UnitedStateDocument, UnitedStateReport, UnitedStateImge, UnitedStateVideo
 
 @registry.register_document
 class UserDocument(Document):
@@ -75,7 +74,6 @@ class SaudiArabiaReportDocument(Document):
             'description',
             'upload_date',
         ]
-        related_models = [Tag]
 
 @registry.register_document
 class UnitedStateReportDocument(Document):
@@ -106,7 +104,6 @@ class UnitedStateReportDocument(Document):
             'description',
             'upload_date',
         ]
-        related_models = [Tag]
 
 @registry.register_document
 class GeneralReportDocument(Document):
@@ -137,7 +134,6 @@ class GeneralReportDocument(Document):
             'description',
             'upload_date',
         ]
-        related_models = [Tag]
 
 # media
 @registry.register_document

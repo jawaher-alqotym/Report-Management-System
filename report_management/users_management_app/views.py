@@ -87,7 +87,6 @@ def get_user_info(request: Request, user_id: str):
         except Exception as e:
           return Response({"msg": f"{e}"}, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAdminUser])

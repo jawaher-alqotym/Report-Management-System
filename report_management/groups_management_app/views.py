@@ -1,6 +1,5 @@
 # groups_management_app/views.py
 
-from django.apps import AppConfig
 from rest_framework import status
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -9,7 +8,6 @@ from rest_framework.decorators import authentication_classes
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAdminUser
-from rest_framework.pagination import PageNumberPagination
 
 from django.contrib.auth.models import Group, User, Permission
 from django.contrib.contenttypes.models import ContentType
