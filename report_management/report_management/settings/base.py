@@ -1,11 +1,12 @@
-# setting.py
+# # report_management/settings/base.py
 
 import os
 from datetime import timedelta
 from pathlib import Path
+from elasticsearch import RequestsHttpConnection
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-from elasticsearch import RequestsHttpConnection
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -190,10 +191,8 @@ REST_FRAMEWORK = {
     'ORDERING_PARAM': 'ordering',
 }
 
-# Elasticsearch configuration
-from elasticsearch import RequestsHttpConnection
 
-# Elasticsearch configuration in settings.py
+# Elasticsearch configuration in base.py
 ELASTICSEARCH_DSL = {
     'default': {
         'hosts': 'localhost:9200',
