@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     # Rest app
     'rest_framework',
 
+    # Cross-Origin Resource Sharing (CORS) headers to responses
+    "corsheaders",
+
     #django_storages app
     'storages',
 
@@ -60,6 +63,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'report_management.urls'
@@ -203,3 +208,7 @@ ELASTICSEARCH_DSL = {
         'connection_class': RequestsHttpConnection
     }
 }
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
